@@ -135,4 +135,19 @@ public class FockStateTest {
         
     }
     
+    @Test
+    public void testCopy() {
+        
+        //Tests the copying method
+        
+        FockState tester8 = new FockState(18, 4, 0.79, 1.1);
+        FockState tester9 = new FockState(18, 4, 0.79, 1.1);
+        tester8.setAsVacuum();
+        tester8.setCoeff(14, 3);
+        tester9.makeSameAs(tester8);
+        assertEquals(tester9.getCoeff(0), 0);
+        assertEquals(tester9.getCoeff(14), 3);
+        
+    }
+    
 }

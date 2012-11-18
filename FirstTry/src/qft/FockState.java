@@ -1,6 +1,8 @@
 package qft;
 
 public class FockState {
+    
+    //Class for a member of the infinite Fock space
 
 	private int _systemSize;
 	private int _maxParticles;
@@ -127,7 +129,7 @@ public class FockState {
 		//qth momentum will destroy the state
 		//NOTE: Deal with q>system_size differently - returns false always atm?
 		
-		if(q>(_systemSize -1)) {
+		if(q<_systemSize) {
 			if(_coeffs[q] == 0) {
 				return true;
 			}
@@ -147,7 +149,7 @@ public class FockState {
 		//NOTE: deal with p>(system_size - 1) differently?
 	    //NOTE: what if we push beyond maxParticles?
 		
-		if(p<(_systemSize - 1)) {
+		if(p<_systemSize) {
 			_coeffs[p]++;
 		}
 		
@@ -160,7 +162,7 @@ public class FockState {
 	    //NOTE: what happens if applied to a 0? - we have a check method but still,
 	    //should be more robust
 		
-		if(r<(_systemSize - 1)) {
+		if(r<_systemSize) {
 			_coeffs[r]--;
 		}
 				
@@ -241,6 +243,22 @@ public class FockState {
 		
 		return energyTotal;
 		
+	}
+	
+	public void makeSameAs(FockState passedState) {
+	    
+	    //Makes this Fock state the same as the passed one (if they represent systems of the same
+	    //size, mass etc.)
+	    
+	    if((passedState.getSystemSize() == _systemSize) &&
+	       (passedState.getMaxParticles() == _maxParticles) &&
+	       (passedState.getEpsilon() == _epsilon) &&
+	       (passedState.getMass() == _mass)) {
+	        for(int k=0; k<_systemSize; k++) {
+	            _coeffs[k] = passedState.getCoeff(k);
+	        }
+	    }
+	    
 	}
 	
 }
